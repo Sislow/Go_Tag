@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/Ohardwick/Documents/AdvAnd/GOTag/app/build/intermediates/pre-dexed/debug/classes-724817cb2d09d1f61ccc04ed9073d179334e42b1.jar"
+        jar="/Users/Ohardwick/Documents/AdvAnd/GOTag/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="/Users/Ohardwick/Documents/AdvAnd/Tag/app/build/intermediates/pre-dexed/debug/classes-6cab5f3451d3ae4c32b9ad8ded08716385cb0aa0.jar"
+        jar="/Users/Ohardwick/Documents/AdvAnd/Tag/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.77/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="b6a82434c1eca686607867cd906bcc80ed987837"/>
+    <item
+        dex="/Users/Ohardwick/Documents/AdvAnd/GOTag/app/build/intermediates/pre-dexed/debug/classes-64c097d9a823c5f18e209be9f48d527435a6af1d.jar"
+        jar="/Users/Ohardwick/Documents/AdvAnd/GOTag/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.77/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="b6a82434c1eca686607867cd906bcc80ed987837"/>
+    <item
+        dex="/Users/Ohardwick/Documents/AdvAnd/Tag/app/build/intermediates/pre-dexed/debug/classes-9f2d936011ad8ed4f82e2584a794ac3c84a9ba72.jar"
+        jar="/Users/Ohardwick/Documents/AdvAnd/Tag/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="/Users/Ohardwick/Documents/AdvAnd/Tag/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-0e80ab66633031df348c3cb88169c03b13c61103.jar"
+        jar="/Applications/adt-bundle-mac-x86_64-20130717/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+
+</pre-dex-items>
