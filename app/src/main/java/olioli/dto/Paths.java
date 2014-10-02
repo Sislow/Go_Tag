@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 /**
  * Created by Ohardwick on 9/16/14.
+ * Holds paths for variables throughout the application
  */
 public class Paths {
 

@@ -20,6 +20,13 @@ import olioli.dto.Paths;
 import olioli.tag.GPSTracker;
 import olioli.tag.R;
 
+/**
+ * Created by Ohardwick on 9/16/14.
+ * The main activity for the Current GAME
+ * In works with changing the way it tracks users to pass to the PATHS in dto
+ */
+
+
 public class CurrentGame extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.

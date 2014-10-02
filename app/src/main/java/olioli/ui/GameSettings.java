@@ -10,6 +10,7 @@ import olioli.tag.R;
 
 /**
  * Created by Ohardwick on 9/16/14.
+ * not sure if we are using this yet but it might be used for different user settings
  */
 public class GameSettings extends PreferenceActivity {
 

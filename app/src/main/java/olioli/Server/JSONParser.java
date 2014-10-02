@@ -21,6 +21,7 @@ import olioli.tag.GPSTracker;
 
 /**
  * Created by Ohardwick on 9/25/14.
+ * Is the parser planned to pass each point from user to user using JSON
  */
 public class JSONParser {
 

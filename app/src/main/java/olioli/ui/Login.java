@@ -17,6 +17,7 @@ import olioli.tag.R;
 
 /**
  * Created by Ohardwick on 9/16/14.
+ * FAKE LOGIN SCREEN
  */
 public class Login extends Activity {
     @Override

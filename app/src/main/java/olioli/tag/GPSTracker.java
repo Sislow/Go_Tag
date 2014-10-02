@@ -14,6 +14,8 @@ import com.google.android.gms.location.LocationListener;
 
 /**
  * Created by Ohardwick on 9/16/14.
+ * Tracks the users current location
+ * Will implement the Parser
  */
 public class GPSTracker implements LocationListener {
 
