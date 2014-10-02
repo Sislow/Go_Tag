@@ -111,6 +111,11 @@ public class CurrentGame extends FragmentActivity {
         //}
     }
 
+    /**
+     *  This places fake points for users on the map
+     *  
+     * 
+     */
     private void setUsers() {
 
         ArrayList<String> use = new ArrayList<String>();
