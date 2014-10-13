@@ -117,6 +117,8 @@ public class CurrentGame extends FragmentActivity {
      *  
      * 
      */
+    
+    //CR Comment: implement the fake users through the use of an interface and stub
     private void setUsers() {
 
         ArrayList<String> use = new ArrayList<String>();
