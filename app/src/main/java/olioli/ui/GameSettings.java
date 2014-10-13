@@ -19,6 +19,7 @@ public class GameSettings extends PreferenceActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.setting_screen);
         addPreferencesFromResource(R.xml.preference);
+        //CR Comment: better nameing for the button. Perhaps btnProfile
         Button button = (Button) findViewById(R.id.profile);
  //       button.setOnClickListener(new View.OnClickListener() {
   //          @Override

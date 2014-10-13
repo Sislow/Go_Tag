@@ -24,15 +24,20 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        //CR Comment: Poor choice of button id. try something such as btnSign.
         Button sign = (Button) findViewById(R.id.sign);
 
         GPSTracker mGPS = new GPSTracker(this);
-
+        //CR Comment: Poor choice of TextView id. try something like txtText,
+        //or something that relates to what the textview is used for. Be more specific
         TextView text = (TextView) findViewById(R.id.texts);
         if(mGPS.canGetLocation ){
             mGPS.getLocation();
+            //CR Comment: without the space after "Lat" the gps data will be shown directly
+            //after Lat. Try "Lat ". Same for Lon
             text.setText("Lat"+mGPS.getLatitude()+"Lon"+mGPS.getLongitude());
         }else{
+        	//CR Comment: A better message may help the User understand the problem. "Unable to find your location"
             text.setText("Unabletofind");
             System.out.println("Unable");
         }

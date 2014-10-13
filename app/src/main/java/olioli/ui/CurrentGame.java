@@ -28,7 +28,8 @@ import olioli.tag.R;
 
 
 public class CurrentGame extends FragmentActivity {
-
+    //CR Comment: make Google Play services a required apk in your AndroidManifest.apk.
+	//this will solve the problem of possibly not having Googlemaps. 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Location location;
     Criteria criteria;
