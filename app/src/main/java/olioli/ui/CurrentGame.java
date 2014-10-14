@@ -25,7 +25,8 @@ import olioli.tag.R;
  * The main activity for the Current GAME
  * In works with changing the way it tracks users to pass to the PATHS in dto
  */
-
+//Some of the stuff present in this UI could go in a service layer like the Location'
+//Also the GPS Tracker and Criteria could as well
 
 public class CurrentGame extends FragmentActivity {
 
