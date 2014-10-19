@@ -12,6 +12,9 @@ import java.util.HashMap;
  * Created by Ohardwick on 9/16/14.
  * Holds paths for variables throughout the application
  */
+ 
+  // Waiting for some getters and setters otherwise looks appropriate so far 
+ 
 public class Paths {
 
     public static ArrayList<String> users;
