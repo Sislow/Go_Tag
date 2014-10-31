@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="olioli.ui.Login"
-            android:label="@string/title_activity_current_game" >
+            android:label="GOTag" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +22,7 @@
         <activity android:name="olioli.ui.GameSettings">
 
         </activity>
+
 
 
         <meta-data
