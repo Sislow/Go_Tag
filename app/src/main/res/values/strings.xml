@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Tag</string>
+    <string name="app_name">GOTag</string>
     <string name="title_activity_current_game">Map</string>
     <string name="email">email address</string>
     <string name="password">password</string>
-    <string name="sign">Sign In</string>
+    <string name="autosign">Auto Login</string>
+    <string name="reg">Register</string>
     <string name="create">Create Game</string>
     <string name="view">View Games</string>
     <string name="profile">View Profile</string>
