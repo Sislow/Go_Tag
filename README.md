@@ -8,4 +8,8 @@ GOTag
   GOTag/app/src/main/java/olioli
     The java files have been split in to multiple packages.
     
+    
+    Files have been individually updated due to an link issue. all comments are in javadoc format above each class
+    ENJOY!!!
+    
  
