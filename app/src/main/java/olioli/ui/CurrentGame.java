@@ -5,7 +5,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,18 +14,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import olioli.dto.Paths;
+import olioli.dao.INetwork;
+import olioli.dao.NetworkConnect;
+import olioli.dto.Users;
 import olioli.tag.GPSTracker;
 import olioli.tag.R;
-
-/**
- * Created by Ohardwick on 9/16/14.
- * The main activity for the Current GAME
- * In works with changing the way it tracks users to pass to the PATHS in dto
- */
-//Some of the stuff present in this UI could go in a service layer like the Location'
-//Also the GPS Tracker and Criteria could as well
 
 public class CurrentGame extends FragmentActivity {
 
@@ -35,8 +29,9 @@ public class CurrentGame extends FragmentActivity {
     Criteria criteria;
     GPSTracker mGPS;
 
-    ArrayList<Double> lng = new ArrayList<Double>();
-    ArrayList<Double> lat = new ArrayList<Double>();
+    List<Users> userList;
+
+    INetwork nc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +43,10 @@ public class CurrentGame extends FragmentActivity {
         criteria = new Criteria();
         String provider = service.getBestProvider(criteria, false);
 
-        if(mGPS.canGetLocation ){
-            mGPS.getLocation();
-            Log.v("location", "Lat" + mGPS.getLatitude() + "Lon" + mGPS.getLongitude());
-            lat.add(0, mGPS.getLatitude());
-            lng.add(0, mGPS.getLongitude());
 
-        }else{
-            Log.v("location","Unabletofind");
-            System.out.println("Unable");
-        }
+        userList = new ArrayList<Users>();
+
+        nc = new NetworkConnect();
 
         location = service.getLastKnownLocation(provider);
         setUpMapIfNeeded();
@@ -93,67 +82,29 @@ public class CurrentGame extends FragmentActivity {
      */
     private void setUpMap() {
 
-        //Paths.lat = location.getLatitude();
-        //Paths.lon = location.getLongitude();
-        //Paths.profile = "otis";
-
-        LatLng ll = null;
+        LatLng ll;
         if (location != null) {
             ll = new LatLng(mGPS.getLatitude(),mGPS.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
 
 
         }
-        //setUsers();
 
-        //for (Paths.users) {
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(mGPS.getLatitude(), mGPS.getLongitude())).title("Mark"));
-        //mMap.addCircle(new CircleOptions().center(new LatLng(0,0)).radius(20).fillColor(0xff0000ff));
-        //}
+        setUsers();
+
     }
 
-    /**
-     *  This places fake points for users on the map
-     *  
-     * 
-     */
-    private void setUsers() {
+     public void setUsers() {
 
-        ArrayList<String> use = new ArrayList<String>();
-        ArrayList<Double> lat = new ArrayList<Double>();
-        ArrayList<Double> lon = new ArrayList<Double>();
+         userList.addAll(nc.collectUsers());
 
-        use.add(0, "Mark");
-        use.add(1, "Tim");
-        use.add(2, "Oliver");
-        use.add(3, "Ashley");
+         for (final Users users : userList) {
 
-        lat.add(0, 15.0);
-        lat.add(1, 1.0);
-        lat.add(2, 45.0);
-        lat.add(3, 39.142359);
+            mMap.addMarker(new MarkerOptions().position(new LatLng(users.getLat(), users.getLng())).title(users.getName()));
+            mMap.addCircle(new CircleOptions().center(new LatLng(users.getLat(), users.getLng())).radius(20).fillColor(0xff0000ff));
 
-        lon.add(0, 0.0);
-        lon.add(1, 10.0);
-        lon.add(2, 20.0);
-        lon.add(3, -84.519517);
+         }
 
-        Paths.users = use;
-        Paths.latList = lat;
-        Paths.lonList = lon;
-        int index = 0;
-
-        for (String s : use) {
-
-            if (lat != null || lon != null) {
-
-                mMap.addMarker(new MarkerOptions().position(new LatLng(lat.get(index), lon.get(index))).title(s));
-                mMap.addCircle(new CircleOptions().center(new LatLng(lat.get(index), lon.get(index))).radius(10)).setFillColor(getResources().getColor(R.color.LawnGreen));
-
-                index++;
-
-            }
-        }
     }
 
 }
