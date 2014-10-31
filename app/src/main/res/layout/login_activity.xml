@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/AliceBlue"
+    >
+
+    <Button
+        android:id="@+id/btn_auto_sign"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:textSize="25dp"
+        android:background="@drawable/button"
+        android:textColor="@color/Black"
+        android:text="@string/autosign"
+        />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_below="@+id/btn_auto_sign"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:textSize="25dp"
+        android:background="@drawable/button2"
+        android:textColor="@color/Black"
+        android:text="@string/reg"
+        />
+
+
+</RelativeLayout>
