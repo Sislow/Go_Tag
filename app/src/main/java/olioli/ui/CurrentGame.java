@@ -22,6 +22,12 @@ import olioli.dto.Users;
 import olioli.tag.GPSTracker;
 import olioli.tag.R;
 
+/**
+ * Javadoc at the top that explains how the game works would have been helpful
+ * @author Barnitek
+ *
+ */
+
 public class CurrentGame extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -63,6 +69,8 @@ public class CurrentGame extends FragmentActivity {
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
+        	// Code Review Comment:What happens if this is not successful? Consider moving this to a try-catch
+        	
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
@@ -95,11 +103,13 @@ public class CurrentGame extends FragmentActivity {
     }
 
      public void setUsers() {
-
+    	// Code Review Comment: Consider commenting this so others can better understand
+    	 //what is happeneing. 
+    	 //Example: Return all users from the mySQL database
          userList.addAll(nc.collectUsers());
 
          for (final Users users : userList) {
-
+        	 //Example: Add the users in the array to a map, and put a circile around each.
             mMap.addMarker(new MarkerOptions().position(new LatLng(users.getLat(), users.getLng())).title(users.getName()));
             mMap.addCircle(new CircleOptions().center(new LatLng(users.getLat(), users.getLng())).radius(20).fillColor(0xff0000ff));
 

@@ -1,4 +1,4 @@
-package olioli.tag;
+	package olioli.tag;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,7 +36,7 @@ public class GPSTracker implements LocationListener {
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
-
+// Code Review Comment: You have this set to 1 millisecond, not 1 minute. 60,000 milliseconds in one minute.
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
 

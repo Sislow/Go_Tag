@@ -25,7 +25,7 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-
+     // Code Review Comment: sign_In is not a proper naming convention. Should be signIn, or btnSignIn
         // Establish button
         sign_In = (Button) findViewById(R.id.btn_auto_sign);
 
