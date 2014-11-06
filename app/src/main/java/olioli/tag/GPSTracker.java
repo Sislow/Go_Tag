@@ -206,6 +206,10 @@ public class GPSTracker implements LocationListener {
     }
 
     @Override
+    
+    //This method accepts location but is empty looking foward to seeing this method in action 
+    
+    
     public void onLocationChanged(Location location) {
         
     }
