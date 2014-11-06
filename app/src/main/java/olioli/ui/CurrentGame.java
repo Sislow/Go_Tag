@@ -25,6 +25,7 @@ import olioli.tag.R;
  * The main activity for the Current GAME
  * In works with changing the way it tracks users to pass to the PATHS in dto
  */
+// To make for less code in the UI portion some of this code could be in the service layer of the application
 
 
 public class CurrentGame extends FragmentActivity {
