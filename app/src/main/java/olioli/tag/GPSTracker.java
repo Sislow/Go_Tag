@@ -205,6 +205,7 @@ public class GPSTracker implements LocationListener {
         alertDialog.show();
     }
 
+//This method accepts location but is empty looking foward to seeing this method in action 
     @Override
     public void onLocationChanged(Location location) {
         
