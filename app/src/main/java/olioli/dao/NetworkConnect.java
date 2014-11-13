@@ -160,7 +160,7 @@ public class NetworkConnect implements INetwork {
 
     // Goes to last row and gets the row count then returns it to collectUsers()
     //Maybe in the catch block give a specific exception, I understand you are returning 0
-    //but If the code in the try fails and it is just returning 0 not explaining what the problem is
+    //but If the code in the try fails and it is just returning 0 not explaining what the problem is unless this is for the user specifically
     
     public int getRows(ResultSet res){
         int totalRows = 0;
