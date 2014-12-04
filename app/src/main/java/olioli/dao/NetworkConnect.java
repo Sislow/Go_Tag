@@ -1,8 +1,25 @@
 package olioli.dao;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -28,148 +45,186 @@ import olioli.tag.GPSTracker;
 
 public class NetworkConnect implements INetwork {
 
-    Connection connection;
-
     private List<Users> userList= new ArrayList<Users>();
+    String line;
+    String result;
+    String status = "0";
+    int ID = 0;
 
-    /**
-     * connect method utilizes jbdc and db4free
-     * If the connection fails due to driver issue or network they are printed under error log
-     *
-     */
-    public boolean connect()
-    {
-        boolean complete = false;
-        connection = null;
-            try{
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch(Exception e) {
-                Log.e("Error-D","UNABLE TO FIND DRIVER " + e);
-            }
+    public int Login(String username, String password, double lat, double lng){
 
-            try{
+        String url = "http://homepages.uc.edu/~scheidrt/login.php";
+        String result = "";
+        InputStream isr = null;
 
-                connection = DriverManager.getConnection("jdbc:mysql://www.db4free.net:3306/gameoftag", "gotag", "taggame");
-                complete = true;
-
-            } catch (SQLException e) {
-                Log.e("Error-N","Connectfailed " + e);
-            }
-
-        return complete;
-    }
-
-    /**
-     * Gives application a context. Will be used later for update method
-     *
-     */
-    public Context getApplicationContext() {
-
-        return null;
-    }
-
-    /**
-     * Collects a list of users and returns them to set marker users in current game
-     * setUsers();
-     *
-     */
-    public List<Users> collectUsers(){
-        String sql = "SELECT * FROM users";
-        Users user;
-
-        //Connect to mySQL
         try{
-            if(connect() == true){
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            isr = entity.getContent();
+        }catch(Exception e){
+            Log.d("debug", "Error in http connection " + e.toString());
+        }
 
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql);
+        //convert response to string
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(isr, "UTF-8"), 8);
+            String line = "";
+            int counter = 0;
+            while((line = reader.readLine()) != null){
+                if(counter==2){
+                    //pulls string in json array format + </body>
+                    result = line;
+                }
+                counter++;
+            }
+            counter = result.length() - 7;
+            result = result.substring(0, counter);
+            Log.d("debug", "Result: " + result);
+        }catch(Exception e){
+            Log.d("debug", "Error converting result " + e.toString());
+        }
 
-                // Get row count for for loop
-                int rowNumber = getRows(resultSet);
+        //parse json data
+        try{
+            //if(status.equalsIgnoreCase("1")){
+            //String s = "";
+            JSONArray jArray = new JSONArray(result);
+            for(int i=0; i<jArray.length(); i++){
+                JSONObject json = jArray.getJSONObject(i);
+                if(json.getString("name").equalsIgnoreCase(username) && json.getString("password").equalsIgnoreCase(password)){
+                    //if username and password match, return id
+                    ID = json.getInt("id");
+                }
+            }
+        }catch(Exception e){
+            Log.d("debug", "Error parsing data " + e.toString());
+        }
+        Log.d("debuger", "LOGIN ID: " + ID);
+        if(ID != 0){
+            getStats(ID, lat, lng);
+        }
+        return ID;
+    }
 
-                while(resultSet.next())
-                {
-                    for(int i = 0; i <=rowNumber; i++)
-                    {
+    public String getStats(int inputID, double latitude, double longitude) {
+        int ID = inputID;
+        double lat = latitude;
+        double lng = longitude;
 
-                        if(resultSet.getString(2)!= null)
-                        {
+        String url = "http://homepages.uc.edu/~scheidrt/user.php?id=" + ID + "&lat=" + lat + "&lng=" + lng;
+        result = "";
+        line = "";
 
-                            user = new Users();
+        InputStream isr = null;
 
-                            user.setName(resultSet.getString(2));
-                            user.setLat(resultSet.getDouble(3));
-                            user.setLng(resultSet.getDouble(4));
-                            userList.add(user);
+        try{
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            isr = entity.getContent();
+        }catch(Exception e){
+            Log.d("debug", "Error in http connection " + e.toString());
+            //resultView.setText("Couldn't connect to DB.");
+        }
 
-                        }
+        //convert response to string
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(isr, "UTF-8"), 8);
+            line = "";
+            int counter = 0;
+            result = "";
+            while((line = reader.readLine()) != null){
+                if(counter==4){
+                    //pulls string in json array format + </body>
+                    result = line;
+                }
+                counter++;
+            }
+            status = result.substring(0, 1);
+            //find length of result string and subtract "</body>" (7)
+            counter = result.length() - 7;
+            //result = string of json array data
+            result = result.substring(1, counter);
+            Log.d("debug", "SQL Status: " + status + "; Result: " + result);
+        }catch(Exception e){
+            Log.d("debug", "Error converting result " + e.toString());
+        }
 
-                    }
+        //parse json data
+        getUsers();
+        return result;
+    }
 
+    public List<Users> getUsers() {
+        String url = "http://homepages.uc.edu/~scheidrt/getUsers.php";
+        InputStream isr = null;
+        try{
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            isr = entity.getContent();
+        }catch(Exception e){
+            Log.d("debug", "Error in http connection " + e.toString());
+            //resultView.setText("Couldn't connect to DB.");
+        }
+
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(isr, "UTF-8"), 8);
+            line = "";
+            int counter = 0;
+            result = "";
+            while((line = reader.readLine()) != null){
+                if(counter==4){
+                    //pulls string in json array format + </body>
+                    result = line;
 
                 }
-            }else
-            {
-                System.out.println("Connection failed");
+                Log.d("debug", "line " + counter+ " " + line);
+                counter++;
+
             }
+
+            status = result.substring(0, 1);
+            //find length of result string and subtract "</body>" (7)
+            counter = result.length() - 7;
+            //result = string of json array data
+            result = result.substring(0, counter);
+            Log.d("debug", "SQL Status: " + status + "; Result: " + result);
+        }catch(Exception e){
+            Log.d("debug", "Error converting result " + e.toString());
         }
-        catch(Exception e)
-        {
-            Log.e("Error-CU", "" + e);
-        }
-        return userList;
 
-    }
+        Users user;
 
-    public Boolean update(){
-
-        String sql = "SELECT * FROM users WHERE name=otis" ;
-        Boolean updated = false;
-        Double lat = null;
-        Double lng = null;
-        GPSTracker mGPS = new GPSTracker(this.getApplicationContext());
-        if(mGPS.canGetLocation != false) {
-            lat = mGPS.getLatitude();
-            Log.d("lat", lat.toString());
-
-            lng = mGPS.getLongitude();
-
-        }
         try{
-            if(connect() == true){
 
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql);
+            line = "";
+            JSONArray jArray = new JSONArray(result);
+            for(int i=0; i<jArray.length(); i++){
+                JSONObject json = jArray.getJSONObject(i);
 
+                user = new Users();
+                user.setName(json.getString("username"));
+                user.setId(json.getInt("id"));
+                user.setLat(json.getDouble("lat"));
+                user.setLng(json.getDouble("long"));
 
-                resultSet.updateDouble(3, lat);
-                resultSet.updateDouble(4, lng);
-                updated = true;
-            }else
-            {
-                System.out.println("Connection failed");
+                userList.add(user);
+
             }
-        }
-        catch(Exception e)
-        {
-            Log.e("Error-U", "" + e);
+            Log.d("debug", line);
+            //resultView.setText(s);
+
+        }catch(Exception e){
+            Log.d("debug", "Error parsing data " + e.toString());
         }
 
-        return updated;
+        return userList;
     }
 
-    // Goes to last row and gets the row count then returns it to collectUsers()
-    public int getRows(ResultSet res){
-        int totalRows = 0;
-        try {
-            res.last();
-            totalRows = res.getRow();
-            res.beforeFirst();
-        }
-        catch(Exception ex)  {
-            return 0;
-        }
-        return totalRows;
-    }
 
 }
