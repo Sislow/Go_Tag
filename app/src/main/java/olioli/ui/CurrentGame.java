@@ -141,13 +141,10 @@ public class CurrentGame extends FragmentActivity {
                  mMap.addMarker(new MarkerOptions().position(new LatLng(users.getLat(), users.getLng())).title(users.getName()));
                  mMap.addCircle(cO.center(new LatLng(users.getLat(), users.getLng())).radius(20).fillColor(0xff0000ff));
 
-             } else {
-                 // nothing
-                 tagSystem();
-             }
-
+             } 
+             
          }
-
+            //tagSystem();
     }
 
     /**
