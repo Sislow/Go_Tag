@@ -1,0 +1,148 @@
+package olioli.dto;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import olioli.ui.Login;
+
+/**
+ * Created by Ohardwick on 12/4/14.
+ */
+public class UserAccess extends AsyncTask<String, Integer, String> {
+
+    ProgressDialog progressDialog = null;
+
+    public double lati = 0.0;
+    public double longi = 0.0;
+
+    public LocationManager locMan;
+    public Location local;
+    public FirstLocationListener locationListener;
+
+    private final Context mContext;
+
+    public UserAccess(Context context) {
+        this.mContext = context;
+
+    }
+
+    @Override
+    protected void onPreExecute() {
+        locationListener = new FirstLocationListener();
+        locMan = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+
+        // request location
+        locMan.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER, 0, 0,
+                locationListener);
+        progressDialog = new ProgressDialog(mContext);
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                // allow cancel
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    UserAccess.this.cancel(true);
+                }
+            });
+            progressDialog.setMessage("Finding Location...");
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+
+    }
+
+    @Override
+    protected void onCancelled(){
+        System.out.println("Cancelled by user!");
+        progressDialog.dismiss();
+        locMan.removeUpdates(locationListener);
+    }
+
+    /**
+     * Toast User location and assign variables for application upon completion
+     *
+     * @param result
+     */
+    @Override
+    protected void onPostExecute(String result) {
+        progressDialog.dismiss();
+        Toast.makeText(mContext, "Done", Toast.LENGTH_LONG).show();
+        Login.lat = lati;
+        Login.lng = longi;
+
+        Log.i("Value", lati + " " + longi);
+        Log.i("Value", Login.lat + " " + Login.lng);
+
+
+
+    }
+
+    /**
+     * Ensure that the application does not return the default location for user.
+     * @param params
+     * @return null
+     */
+    @Override
+    protected String doInBackground(String... params) {
+        // TODO Auto-generated method stub
+
+        while (this.lati == 0.0) {
+
+        }
+        return null;
+    }
+
+
+    /**
+     * Simple locationlistener class that finds current user
+     *
+     */
+    public class FirstLocationListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location location) {
+
+            String info = location.getProvider();
+            try {
+
+                lati = location.getLatitude();
+                longi = location.getLongitude();
+
+            } catch (Exception e) {
+
+            }
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            Log.i("OnProviderDisabled", "OnProviderDisabled");
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            Log.i("onProviderEnabled", "onProviderEnabled");
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status,
+                                    Bundle extras) {
+            Log.i("onStatusChanged", "onStatusChanged");
+
+        }
+    }
+
+
+}
+
+
+
+
