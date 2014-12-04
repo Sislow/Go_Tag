@@ -1,0 +1,19 @@
+package olioli.tag;
+
+import android.location.Location;
+import android.location.LocationListener;
+
+/**
+ * Created by Ohardwick on 11/13/14.
+ */
+public interface IGPSTracker {
+
+    public double getLatitude();
+
+    public double getLongitude();
+
+    public boolean canGetLocation();
+
+    public void showSettingsAlert();
+
+}
