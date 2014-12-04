@@ -5,6 +5,8 @@
     <string name="title_activity_current_game">Map</string>
     <string name="email">email address</string>
     <string name="password">password</string>
+    <string name="uName">Username</string>
+    <string name="zipCode">Zip Code</string>
     <string name="autosign">Auto Login</string>
     <string name="reg">Register</string>
     <string name="create">Create Game</string>
