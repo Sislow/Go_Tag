@@ -23,8 +23,11 @@ public class Users {
     private Double lng;
     private boolean it;
 
-
     public Users(){}
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public String getName() {
         return name;
@@ -49,8 +52,5 @@ public class Users {
     public void setLng(Double lng) {
         this.lng = lng;
     }
-
-
-
 
 }
